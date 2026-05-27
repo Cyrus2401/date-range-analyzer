@@ -32,4 +32,3 @@ No server setup or installation required!
 ---
 **Made with ❤️ by Cyrus HESSOU**
 - LinkedIn: https://www.linkedin.com/in/yao-cyrus-junior-hessou-b6a58122b/
-- GitHub: https://github.com/Cyrus2401

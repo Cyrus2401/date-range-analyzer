@@ -1,118 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Between Two Dates</title>                                           
+    <title>Date range analyzer — Analyseur de périodes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235e6ad2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><rect x='3' y='4' width='18' height='18' rx='2' ry='2'></rect><line x1='16' y1='2' x2='16' y2='6'></line><line x1='8' y1='2' x2='8' y2='6'></line><line x1='3' y1='10' x2='21' y2='10'></line></svg>">
 </head>
+
 <body>
-    
-    <div id="form">
-        <h3>BetweenTwoDates</h3>        
+    <div class="app-shell">
+        <header class="top-nav">
+            <a href="index.html" class="brand" aria-label="Accueil">
+                <svg class="brand-logo" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span class="brand-text">Date range <strong>analyzer</strong></span>
+            </a>
+            <div class="nav-actions">
+                <p class="nav-tagline">Analyseur de dates ultra-précis</p>
+            </div>
+        </header>
 
-        <form>
-            <p>
-                <label for="dateDebut">Date de début</label>
-                <input type="date" id="dateDebut" required> 
-            </p>
+        <main class="main">
+            <section class="panel panel-form" aria-labelledby="form-heading">
+                <div class="panel-head">
+                    <h2 id="form-heading" class="panel-title">Définir la période</h2>
+                    <p class="panel-desc">Choisissez vos dates et le pays pour inclure les jours fériés officiels.</p>
+                </div>
 
-            <p>
-                <label for="dateFin">Date de fin</label>
-                <input type="date" id="dateFin" required> 
-            </p>
+                <form id="dateForm" class="date-form" novalidate>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="dateDebut">Date de début</label>
+                            <input type="date" id="dateDebut" required autocomplete="off">
+                        </div>
+                        <div class="field">
+                            <label for="dateFin">Date de fin</label>
+                            <input type="date" id="dateFin" required autocomplete="off">
+                        </div>
+                    </div>
 
-            <p>
-                <button id="validBtn">Valider</button>
-            </p>
-        </form>
+                    <div class="field country-field">
+                        <label>Pays (jours fériés)</label>
+                        <div class="custom-select-container" id="customSelectContainer">
+                            <button type="button" class="select-trigger" id="selectTrigger" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="selected-value">🇧🇯 Bénin</span>
+                                <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="select-dropdown" id="selectDropdown">
+                                <div class="search-box">
+                                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    <input type="text" id="countrySearchInput" class="search-input" placeholder="Rechercher un pays..." autocomplete="off">
+                                </div>
+                                <ul class="options-list" id="optionsList" role="listbox">
+                                    <!-- Dynamically populated -->
+                                </ul>
+                            </div>
+                        </div>
+                        <select id="countryCode" style="display: none;">
+                            <!-- Dynamically populated -->
+                        </select>
+                    </div>
+
+                    <button type="submit" id="validBtn" class="btn btn-primary">
+                        <span>Analyser la période</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </form>
+            </section>
+
+            <section class="results-zone" aria-live="polite">
+                <div id="resultsPlaceholder" class="panel panel-empty">
+                    <div class="empty-icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="4" width="18" height="18" rx="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                    </div>
+                    <p class="empty-title">Aucune analyse pour l'instant</p>
+                    <p class="empty-desc">Sélectionnez vos dates puis lancez l'analyse pour afficher le rapport
+                        détaillé.</p>
+                </div>
+
+                <div id="resultsContent" class="results-stack hidden">
+                    <article class="panel panel-hero">
+                        <div class="hero-meta">
+                            <span class="status-badge">Aperçu général</span>
+                            <h3 class="hero-range">Du <span id="dateDebutTitle">—</span> au <span
+                                    id="dateFinTitle">—</span></h3>
+                        </div>
+                        <div class="hero-metrics">
+                            <p class="hero-duration" id="detailBetweenTwoDatesSpan">0 jour</p>
+                            <div class="hero-pill">
+                                <span class="hero-pill-value" id="numbersOfDays">0</span>
+                                <span class="hero-pill-label">jours au total</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="stats-grid">
+                        <article class="panel stat-card">
+                            <h3 class="stat-title">Répartition hebdomadaire</h3>
+                            <div class="stat-body">
+                                <div class="metric-duo">
+                                    <div class="metric">
+                                        <span class="metric-label">Jours ouvrés</span>
+                                        <span class="metric-value" id="workDaysSpan">0</span>
+                                    </div>
+                                    <div class="metric">
+                                        <span class="metric-label">Week-ends</span>
+                                        <span class="metric-value metric-value-muted" id="weekendDaysSpan">0</span>
+                                    </div>
+                                </div>
+                                <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                    aria-valuenow="0" id="workRatioTrack">
+                                    <div class="progress-fill" id="workRatioBar"></div>
+                                </div>
+                                <p class="stat-foot">Inclut les samedis et dimanches.</p>
+                            </div>
+                        </article>
+
+                        <article class="panel stat-card">
+                            <h3 class="stat-title">
+                                Jours fériés
+                                <span id="holidaysCountryName" class="stat-subtitle"></span>
+                            </h3>
+                            <div class="stat-body">
+                                <div class="metric-large" id="holidaysValueWrapper">
+                                    <span id="holidaysCountSpan">0</span>
+                                    <span id="holidaysLoader" class="loader hidden" aria-label="Chargement"></span>
+                                </div>
+                                <details class="details" id="holidaysDetails">
+                                    <summary>Détail des jours fériés</summary>
+                                    <ul id="holidaysList" class="detail-list"></ul>
+                                </details>
+                                <p class="stat-foot">Source : <a href="https://date.nager.at" target="_blank"
+                                        rel="noopener noreferrer">Nager.Date API</a></p>
+                            </div>
+                        </article>
+
+                        <article class="panel stat-card">
+                            <h3 class="stat-title">Équivalences de durée</h3>
+                            <div class="stat-body">
+                                <ul class="kv-list">
+                                    <li><span>Mois totaux</span><strong id="totalMonthsSpan">0</strong></li>
+                                    <li><span>Semaines totales</span><strong id="totalWeeksSpan">0</strong></li>
+                                    <li><span>Heures totales</span><strong id="totalHoursSpan">0</strong></li>
+                                    <li><span>Minutes totales</span><strong id="totalMinutesSpan">0</strong></li>
+                                </ul>
+                            </div>
+                        </article>
+
+                        <article class="panel stat-card">
+                            <h3 class="stat-title">Détails du calendrier</h3>
+                            <div class="stat-body">
+                                <ul class="kv-list">
+                                    <li><span>Commence un</span><strong id="startWeekdaySpan">—</strong></li>
+                                    <li><span>Se termine un</span><strong id="endWeekdaySpan">—</strong></li>
+                                    <li><span>Années bissextiles</span><strong id="leapYearsCountSpan">0</strong></li>
+                                </ul>
+                                <details class="details" id="leapYearsDetails">
+                                    <summary>Liste des années bissextiles</summary>
+                                    <ul id="leapYearsList" class="detail-list"></ul>
+                                </details>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>Copyright © 2024 – <span id="current-year">2026</span> · Réalisé avec ❤️ par <a
+                    href="https://github.com/Cyrus2401" target="_blank" rel="noopener noreferrer">Cyrus2401</a></p>
+            <div class="footer-links">
+                <a href="https://github.com/Cyrus2401/date-range-analyzer" target="_blank" rel="noopener noreferrer"
+                    aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                        <path
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                            fill="currentColor" />
+                    </svg>
+                </a>
+
+                <a href="https://www.linkedin.com/in/yao-cyrus-junior-hessou-b6a58122b/" target="_blank"
+                    rel="noopener noreferrer" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                            fill="currentColor" />
+                    </svg>
+                </a>
+            </div>
+        </footer>
     </div>
 
-    <div id="result">
-        <section>
-            <h1>Informations entre le <strong id="dateDebutTitle"></strong> et le <strong id="dateFinTitle"></strong></h1>
-            <details>
-                <summary>
-                    <div>
-                        <h3>
-                            <strong>Détail</strong>
-                        </h3>
-                        <span id="detailBetweenTwoDatesSpan"></span>
-                    </div>
-                </summary>
-            </details>
-            <details>
-                <summary>
-                    <div>
-                        <h3>
-                            <strong>Nombre de Jours</strong>
-                        </h3>
-                        <span id="numbersOfDays"></span>
-                    </div>
-                </summary>
-            </details>
-            <details>
-                <summary>
-                    <div>
-                        <h3>
-                            <strong>Nombre de jours ouvrés</strong>
-                        </h3>
-                        <span></span>
-                    </div>
-                </summary>
-            </details>
-            <details>
-                <summary>
-                    <div>
-                        <h3>
-                            <strong>Nombre de week-end</strong>
-                        </h3>
-                        <span></span>
-                    </div>
-                </summary>
-            </details>
-            <details>
-                <summary>
-                    <div>
-                        <h3>
-                            <strong>Nombre de jours fériés</strong>
-                        </h3>
-                        <span></span>
-                    </div>
-                </summary>
-            </details>
-            <details>
-                <summary>
-                    <ul>
-                        <li>10 Janvier</li>
-                        <li>24 Janvier</li>
-                        <li>14 Fevrier</li>
-                        <li>15 Fevrier</li>
-                        <li>24 Fevrier</li>
-                        <li>13 Mars</li>
-                        <li>01 Avril</li>
-                        <li>01 Mai</li>
-                        <li>14 Mai</li>
-                        <li>01 Juin</li>
-                        <li>18 Juin</li>
-                        <li>22 Juin</li>
-                    </ul>
-                </summary>
-            </details>
-        </section>
-    </div>
-
-    <div id="errorDiv"></div>
-    
+    <div id="toastContainer" class="toast-container" role="status" aria-live="polite"></div>
     <script src="script.js"></script>
 </body>
+
 </html>

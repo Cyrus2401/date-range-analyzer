@@ -1,35 +1,55 @@
 # Date Range Analyzer
 
-Date Range Analyzer is a modern, intuitive, and highly accurate web application designed to analyze any period between two dates in detail.
+A simple and visual date range analyzer that compares two dates and generates a detailed report.
+
+## Description
+
+Date Range Analyzer is a static web application that calculates the duration between two dates and provides detailed insights about the selected period. It is designed for users who want to quickly evaluate a time range: total duration, breakdown of weekdays/weekends, official public holidays, time unit conversions, and calendar details.
 
 ## Features
 
-- **Period Analysis**: Accurate duration calculation expressed in years, months, and days between two selected dates.
-- **Weekly Breakdown**: Precise count of working days (Monday–Friday) and weekends, including a visual progress bar.
-- **Official Public Holidays**: Dynamic loading of public holidays for over 100 countries using the Nager.Date API, with detailed holiday names and dates.
-- **Duration Conversions**: Automatic conversion into total months, weeks, hours, and minutes.
-- **Calendar Details**: Displays the start and end weekdays, including leap years within the selected period.
-- **Country Search**: Premium custom country selector with real-time search, emoji flags, and live loading of all available countries.
-- **Design**: Clean interface, smooth staggered animations, animated calendar logo, descriptive favicon, and responsive mobile-friendly design.
+* Date range analysis with output in years, months, and days
+* Calculation of working days and weekends within the range
+* Retrieval of official public holidays by country using the Nager.Date API
+* Automatic conversion into months, weeks, hours, and minutes
+* Display of start and end weekdays
+* Identification of leap years within the selected period
 
-## Tech Stack
+## Technologies Used
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Nager.Date API](https://img.shields.io/badge/Nager.Date_API-5e6ad2?style=for-the-badge&logo=calendar&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge\&logo=html5\&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge\&logo=css3\&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=black)
+![Nager.Date API](https://img.shields.io/badge/Nager.Date_API-5e6ad2?style=for-the-badge\&logo=calendar\&logoColor=white)
 
 ## Usage
 
-No server setup or installation required!
+1. Clone the repository:
 
-1. Download or clone this project.
-2. Open the `index.html` file directly in any modern browser (Chrome, Firefox, Safari).
-3. Select a start date, an end date, choose a country, and click **Analyze Period**.
+   ```bash
+   git clone https://github.com/Cyrus2401/date-range-analyzer.git
+   ```
 
-> **Note:** An internet connection is required to load the complete list of countries and public holidays from the Nager.Date API. If no connection is available, a local fallback list of 32 countries is automatically used.
+2. Navigate into the project folder:
 
----
-**Made with ❤️ by Cyrus HESSOU**
-- LinkedIn: https://www.linkedin.com/in/yao-cyrus-junior-hessou-b6a58122b/
-- GitHub: https://github.com/Cyrus2401
+   ```bash
+   cd date-range-analyzer
+   ```
+
+3. Open `index.html` in your browser.
+
+## Live Demo
+
+The project is available online here:
+
+https://date-range-analyzer.vercel.app/
+
+## Project Structure
+
+* `index.html` — main user interface
+* `style.css` — visual styling and layout
+* `script.js` — calculation logic, API integration, and interactions
+
+## License
+
+This project is licensed under the MIT License.
